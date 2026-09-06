@@ -1,5 +1,6 @@
-# Oracle 11g RMAN backup and media-recovery workflow
-# Review file numbers and paths before running in an isolated lab.
+# Phase 1: Oracle 11g RMAN backup and validation only.
+# Run against the prepared, open lab database.
+# The restore phase is in rman-restore-recovery.rman and is run separately.
 
 CONFIGURE DEFAULT DEVICE TYPE TO DISK;
 CONFIGURE DEVICE TYPE DISK BACKUP TYPE TO BACKUPSET;
@@ -12,21 +13,4 @@ BACKUP SPFILE;
 BACKUP CURRENT CONTROLFILE;
 
 LIST BACKUP SUMMARY;
-LIST BACKUP OF DATAFILE 6;
 RESTORE DATABASE VALIDATE;
-
-SQL 'ALTER SYSTEM ARCHIVE LOG CURRENT';
-BACKUP ARCHIVELOG ALL;
-LIST BACKUP OF ARCHIVELOG ALL;
-
-# After simulating loss of datafile 6 and starting the database in MOUNT mode:
-RESTORE DATAFILE 6;
-RECOVER DATAFILE 6;
-SQL 'ALTER DATABASE OPEN';
-
-# Control-file-loss contingency (not executed in the report scenario):
-# SET DBID <YOUR_DBID>;
-# STARTUP NOMOUNT;
-# RESTORE CONTROLFILE FROM AUTOBACKUP;
-# ALTER DATABASE MOUNT;
-

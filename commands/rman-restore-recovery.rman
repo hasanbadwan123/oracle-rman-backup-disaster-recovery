@@ -1,0 +1,8 @@
+# Phase 3: manual lab recovery after the prepared failure simulation.
+# Preconditions: database in MOUNT, backups available, correct target selected.
+# Pass the RECOVERY_TS file_id as the first USING argument; never assume it is 6.
+# Example for a lab where the VERIFIED file_id is 6:
+# rman target / cmdfile=commands/rman-restore-recovery.rman using 6
+RESTORE DATAFILE &1;
+RECOVER DATAFILE &1;
+SQL 'ALTER DATABASE OPEN';

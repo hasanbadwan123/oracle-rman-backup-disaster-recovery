@@ -1,0 +1,5 @@
+# Phase 2: run AFTER committing the post-backup test transaction.
+# Preserve redo needed to recover that transaction after restoring phase 1.
+SQL 'ALTER SYSTEM ARCHIVE LOG CURRENT';
+BACKUP ARCHIVELOG ALL;
+LIST BACKUP OF ARCHIVELOG ALL;
